@@ -5,6 +5,7 @@ import fs from "fs";
 
 import inquirer from "inquirer";
 import chalk from "chalk";
+import sharp from "sharp";
 
 const __dirname = process.cwd();
 const log = console.log;
@@ -35,22 +36,55 @@ function main() {
 
       options.list && log(chalk.green(`文件列表:\n${fileList.join("\n")}`));
 
-      dfs(fileList, target);
-      const result = fileList.map((item) => {
-        return path.resolve(target, item);
+      const promises = [];
+      let prev = 0;
+      let next = 0;
+
+      fileList.forEach((file) => {
+        const filePath = path.resolve(target, file);
+        const fileBuffer = fs.readFileSync(filePath);
+        promises.push(
+          new Promise((res) => {
+            sharp(fileBuffer)
+              .metadata()
+              .then(({ size: prevSize }) => {
+                prev += prevSize;
+                sharp(fileBuffer)
+                  .webp({ quality: 99 })
+
+                  .toFile(path.resolve("tmp", file), (err, info) => {
+                    sharp(fs.readFileSync(path.resolve("tmp", file)))
+                      .metadata()
+                      .then(({ size: nextSize }) => {
+                        next += nextSize;
+                        res(next);
+                      });
+                  });
+              });
+          })
+        );
+      });
+      Promise.all(promises).finally(() => {
+        console.log(formatBytes(prev), formatBytes(next));
       });
 
-      if (!result.length) {
-        return log(chalk.greenBright(`当前目录${target}下没有可删除的文件`));
-      }
+      // dfs(fileList, target);
 
-      let count = 0;
-      stepByStepDelete(result, 0, (path) => {
-        const info = fs.statSync(path);
-        count += info.size;
-      }).finally(() => {
-        log("已释放空间: ", chalk.greenBright(formatBytes(count)));
-      });
+      // const result = fileList.map((item) => {
+      //   return path.resolve(target, item);
+      // });
+
+      // if (!result.length) {
+      //   return log(chalk.greenBright(`当前目录${target}下没有可删除的文件`));
+      // }
+
+      // let count = 0;
+      // stepByStepDelete(result, 0, (path) => {
+      //   const info = fs.statSync(path);
+      //   count += info.size;
+      // }).finally(() => {
+      //   log("已释放空间: ", chalk.greenBright(formatBytes(count)));
+      // });
     } catch (error) {
       log(
         chalk.redBright(`
@@ -81,30 +115,6 @@ function getUserInput() {
 function getFileList(path) {
   return fs.readdirSync(path);
 }
-function stepByStepDelete(list, i, cb) {
-  if (i >= list.length) return;
-  return inquirer
-    .prompt({
-      type: "confirm",
-      name: "answer",
-      message: `是否删除文件 ${list[i]}`,
-    })
-    .then(({ answer }) => {
-      if (answer) {
-        try {
-          typeof cb === "function" && cb(list[i]);
-          fs.unlinkSync(list[i]);
-          if (i < list.length) {
-            return stepByStepDelete(list, i + 1, cb);
-          }
-        } catch (error) {
-          throw error;
-        }
-      } else {
-        return stepByStepDelete(list, i + 1, cb);
-      }
-    });
-}
 
 function formatBytes(bytes, decimals = 2) {
   if (bytes === 0) return "0 Bytes";
@@ -116,34 +126,4 @@ function formatBytes(bytes, decimals = 2) {
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
-}
-
-function dfs(fileNameList, prefixPath) {
-  if (!fileNameList.length) return;
-  fileNameList = fileNameList.filter((item) => {
-    return !item.match(/^\.\S+/) && !EXCLUDE.includes(item);
-  });
-
-  fileNameList.forEach((item) => {
-    const newPath = path.resolve(prefixPath, item);
-
-    const tmp = fs.statSync(newPath);
-    if (tmp.isDirectory()) {
-      const newPathList = fs.readdirSync(newPath);
-      dfs(newPathList, newPath);
-    } else if (tmp.isFile()) {
-      const content = fs.readFileSync(newPath, "utf8");
-
-      for (
-        let i = 0;
-        i > -1 && fileNameList.length && i < fileNameList.length;
-        i++
-      ) {
-        if (new RegExp(fileNameList[i]).test(content)) {
-          fileNameList.splice(i, 1);
-          i -= 1;
-        }
-      }
-    }
-  });
 }
