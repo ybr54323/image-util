@@ -1,6 +1,6 @@
 {
   "name": "optimize-util",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -8,11 +8,13 @@
   "author": "YangBingRui",
   "license": "ISC",
   "dependencies": {
+    "@img/sharp-darwin-arm64": "^0.33.1",
+    "@img/sharp-darwin-x64": "^0.33.1",
+    "@img/sharp-linux-x64": "^0.33.1",
     "@img/sharp-win32-x64": "^0.33.1",
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
     "inquirer": "^9.2.12",
-    "optimize-util": "^1.0.0",
     "sharp": "^0.33.1"
   },
   "type": "module",
