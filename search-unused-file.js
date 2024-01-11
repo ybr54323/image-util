@@ -55,7 +55,7 @@ function main() {
     } catch (error) {
       log(
         chalk.redBright(`
-请检查当前传入的--target: ${INPUT}，是否合法目录路径
+请检查当前传入的--target: ${INPUT}, 是否合法目录路径
       `)
       );
       throw error;
@@ -69,11 +69,11 @@ function getUserInput() {
   program
     .option(
       "-t, --target [target]",
-      `目标目录，例如 src/image ：目标目录 src/image 下有 a.png，就会在当前项目目录下，递归遍历所有文件。
-若文件内容中存在 a.png 字眼，则判定 a.png 当前是被引用的，不应该被删除；否则 a.png 会被放入等候删除队列`
+      `目标目录, 例如 src/image ：目标目录 src/image 下有 a.png, 就会在当前项目目录下, 递归遍历所有文件。
+若文件内容中存在 a.png 字眼, 则判定 a.png 当前是被引用的, 不应该被删除；否则 a.png 会被放入等候删除队列`
     )
     .option("-l [list]", "是否列出查出的文件")
-    .option("-e --exclude [exclude...]", "排除在外的文件或目录名")
+    .option("-e --exclude [exclude...]", "排除在外的文件或目录名, 默认包括node_modules和.开头的文件夹")
     .version(JSON.parse(fs.readFileSync("./package.json", "utf8")).version);
   program.parse(process.argv);
   return program.opts();

@@ -97,7 +97,7 @@ function main() {
     } catch (error) {
       log(
         chalk.redBright(`
-请检查当前传入的--target: ${target}，是否合法目录路径
+请检查当前传入的--target: ${target}, 是否合法目录路径
       `)
       );
       throw error;
