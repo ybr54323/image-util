@@ -22,14 +22,12 @@
     "node": ">=16"
   },
   "bin": {
-    "suf": "./search-unused-file.js",
-    "search-unused-file": "./search-unused-file.js",
-    "ci": "./compress-image.js",
-    "compress-image": "./compress-image.js"
+    "suf": "./lib/search-unused-file.js",
+    "search-unused-file": "./lib/search-unused-file.js",
+    "ci": "./lib/compress-image.js",
+    "compress-image": "./lib/compress-image.js"
   },
   "files": [
-    "search-unused-file.js",
-    "compress-image.js",
-    "util.js"
+    "lib"
   ]
 }
