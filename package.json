@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "YangBingRui",
+  "author": "YangBingRui 15817007925@163.com https://juejin.cn/user/580165733975950/posts",
   "license": "ISC",
   "dependencies": {
     "@img/sharp-darwin-arm64": "^0.33.1",
@@ -29,5 +29,9 @@
   },
   "files": [
     "lib"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ybr54323/search-unuse-file"
+  }
 }
