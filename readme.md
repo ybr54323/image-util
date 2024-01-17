@@ -12,7 +12,7 @@
 
 ## 安装
 ```bash
-npm install -f optimize-util -g
+npm install -f image-util -g
 ```
 
 ## 使用例子
