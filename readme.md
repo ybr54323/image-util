@@ -12,6 +12,7 @@
 
 ## 安装
 ```bash
+# 主要要加上 -f
 npm install -f image-util -g
 ```
 
@@ -19,14 +20,19 @@ npm install -f image-util -g
 1. 处理image目录下的图片, 格式全部转换为webp(默认), 质量分数`50`(1-100), 输出到`public`目录下
 ```bash
 ci -t image -f webp -q 50 -d public
+# 更多介绍
+ci -h
 ```
 
 2. 列出image目录下, 文件名(文件名+后缀)没出现在当前目录下其他文件中的内容,  排除`node_modules`, `test`目录, 即列出image目录下没被依赖的文件.
 ```bash
 suf -t image -e node_modules test
+# 更多介绍
+suf -h
 ```
 
+[实现背景](https://juejin.cn/post/7324933059818962970#heading-2)
 
-## 实现背景:
+
 
    
