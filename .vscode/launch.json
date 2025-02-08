@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "调试图片压缩脚本",
+      "program": "${workspaceFolder}/lib/compress-image.js",
+      "args": ["-t", "image", ] // 根据实际参数填写
+    }
+  ]
+} 
