@@ -8,10 +8,6 @@
   "author": "YangBingRui 15817007925@163.com https://juejin.cn/user/580165733975950/posts",
   "license": "ISC",
   "dependencies": {
-    "@img/sharp-darwin-arm64": "^0.33.1",
-    "@img/sharp-darwin-x64": "^0.33.1",
-    "@img/sharp-linux-x64": "^0.33.1",
-    "@img/sharp-win32-x64": "^0.33.1",
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
     "inquirer": "^9.2.12",
